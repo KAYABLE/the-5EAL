@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckntexxnwehd2"]
+
+[ext_resource type="PackedScene" uid="uid://b3ngvpai6vm2x" path="res://assets/models/bullet/9mm_bullet.glb" id="1_mkf8s"]
+[ext_resource type="Script" uid="uid://bg327um81cjk3" path="res://scripts/bullet.gd" id="2_y25gk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y25gk"]
+albedo_color = Color(1, 0.25098, 0, 1)
+emission_enabled = true
+emission = Color(0.921321, 0.37981, 0, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l5glv"]
+direction = Vector3(0, 0, 1)
+initial_velocity_max = 431.03
+
+[sub_resource type="BoxMesh" id="BoxMesh_y25gk"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="Bullet" instance=ExtResource("1_mkf8s")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+script = ExtResource("2_y25gk")
+
+[node name="Sketchfab_model" parent="." index="0"]
+transform = Transform3D(-0.1, 8.74228e-09, 3.82137e-16, 0, -4.37114e-09, 0.1, 8.74228e-09, 0.1, 4.37114e-09, 0, 0, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="." index="1"]
+transform = Transform3D(-1, 6.18172e-08, 6.18172e-08, 0, -0.707107, 0.707107, 8.74228e-08, 0.707107, 0.707107, 0, 0, 0.153447)
+target_position = Vector3(0, -1, -1)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.895806)
+material_override = SubResource("StandardMaterial3D_y25gk")
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_l5glv")
+draw_pass_1 = SubResource("BoxMesh_y25gk")
+
+[node name="Timer" type="Timer" parent="." index="3"]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

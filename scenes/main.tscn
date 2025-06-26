@@ -1,0 +1,77 @@
+[gd_scene load_steps=13 format=3 uid="uid://gafta863amuq"]
+
+[ext_resource type="Texture2D" uid="uid://cy3l6qxh810km" path="res://assets/textures/dev/grids/Dark/texture_07.png" id="1_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://y3wuog4kgiyw" path="res://assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="2_sugp2"]
+[ext_resource type="Script" uid="uid://8ufbcmshmopd" path="res://scripts/player.gd" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://bjaotxlisk025" path="res://scenes/gun.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://dtnyqq2t316ct" path="res://scenes/enemy.tscn" id="4_tbgi4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_tbgi4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tefeu"]
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("1_jyhfs")
+albedo_texture_force_srgb = true
+uv1_triplanar = true
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_tbgi4"]
+panorama = ExtResource("2_sugp2")
+
+[sub_resource type="Sky" id="Sky_tefeu"]
+sky_material = SubResource("PanoramaSkyMaterial_tbgi4")
+
+[sub_resource type="Environment" id="Environment_o6xl0"]
+background_mode = 2
+sky = SubResource("Sky_tefeu")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jyhfs"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sugp2"]
+height = 1.2
+
+[node name="world" type="Node3D"]
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 0.02, 0, 0, 0, 100, 0, 0, 0)
+use_collision = true
+mesh = SubResource("BoxMesh_tbgi4")
+material = SubResource("StandardMaterial3D_tefeu")
+
+[node name="stage" type="Node3D" parent="."]
+
+[node name="env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="env"]
+environment = SubResource("Environment_o6xl0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="player" type="CharacterBody3D" parent="."]
+script = ExtResource("3_sugp2")
+
+[node name="standing_collsion_shape" type="CollisionShape3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00142, 0)
+shape = SubResource("CapsuleShape3D_jyhfs")
+
+[node name="crouching_collsion_shape" type="CollisionShape3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.415864, 0)
+shape = SubResource("CapsuleShape3D_sugp2")
+disabled = true
+
+[node name="head" type="Node3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Camera3D" type="Camera3D" parent="player/head"]
+
+[node name="Gun" parent="player/head/Camera3D" instance=ExtResource("4_jyhfs")]
+transform = Transform3D(-0.999901, 0, -0.0140843, 0, 1, 0, 0.0140843, 0, -0.999901, 0.888454, -0.377627, -1.15118)
+
+[node name="RayCast3D" type="RayCast3D" parent="player"]
+target_position = Vector3(0, 2, 0)
+
+[node name="enemy" parent="." instance=ExtResource("4_tbgi4")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.71184, -8.98606)

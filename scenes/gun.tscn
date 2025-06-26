@@ -1,0 +1,112 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjaotxlisk025"]
+
+[ext_resource type="PackedScene" uid="uid://dkv8kb8xa7qd3" path="res://assets/models/low_poly_pistol.glb" id="1_x77fm"]
+
+[sub_resource type="Animation" id="Animation_og67c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube/Cube_Material_001_0:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube_002/Cube_002_Material_001_0:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube_003/Cube_003_Material_001_0:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_x77fm"]
+resource_name = "shoot"
+length = 0.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube/Cube_Material_001_0:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube_002/Cube_002_Material_001_0:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.3, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube_003/Cube_003_Material_001_0:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.3, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gp1hk"]
+_data = {
+&"RESET": SubResource("Animation_og67c"),
+&"shoot": SubResource("Animation_x77fm")
+}
+
+[node name="Gun" instance=ExtResource("1_x77fm")]
+
+[node name="Sketchfab_model" parent="." index="0"]
+transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, 0.4, 0, -0.4, -1.74846e-08, 0, 0, 0)
+
+[node name="Cube_Material_001_0" parent="Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube" index="0"]
+cast_shadow = 0
+
+[node name="Cube_002_Material_001_0" parent="Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube_002" index="0"]
+cast_shadow = 0
+
+[node name="Cube_003_Material_001_0" parent="Sketchfab_model/a5e25f7be06549fbb1b547dbad7ccc9f_fbx/RootNode/Cube_003" index="0"]
+cast_shadow = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_gp1hk")
+}
+
+[node name="RayCast3D" type="RayCast3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0.00325227, 0.280283, 0.748733)
+target_position = Vector3(0, -1, -1)
